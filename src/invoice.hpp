@@ -100,7 +100,10 @@ Find service invoice
  * otherwise
  */
 std::optional<size_t> findInvoice(const std::string& invoiceId) {
-    auto it = binarySearch(serviceInvoicesList, invoiceId);
+    auto it = binarySearch(serviceInvoicesList, invoiceId,
+                           [](const ServiceInvoice& invoice, const std::string& id) {
+                               return invoice.id < id;
+                           });
 
     if (it != serviceInvoicesList.end() && it->id == invoiceId) {
         return it - serviceInvoicesList.begin();

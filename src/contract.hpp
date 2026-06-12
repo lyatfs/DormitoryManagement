@@ -47,7 +47,10 @@ Find contract
  * @return index of contract in contractsList if found, std::nullopt otherwise
  */
 std::optional<size_t> findContract(const std::string& contractId) {
-    auto it = binarySearch(contractsList, contractId);
+    auto it = binarySearch(contractsList, contractId,
+                           [](const Contract& contract, const std::string& id) {
+                               return contract.id < id;
+                           });
 
     if (it != contractsList.end() && it->id == contractId) {
         return it - contractsList.begin();
